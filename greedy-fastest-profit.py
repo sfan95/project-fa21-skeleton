@@ -1,5 +1,6 @@
 from parse import read_input_file, write_output_file
 import os
+from igloovalue import eval_igloos
 
 def solve(tasks):
     """
@@ -34,3 +35,10 @@ if __name__ == '__main__':
         output = solve(tasks)
         write_output_file(output_path, output)
         print(eval_igloos(tasks, output))
+
+
+
+
+# 100 >> 5000/45000
+# 150 >> 4300/25000
+# 200 >> 3300/11500
