@@ -1,6 +1,7 @@
 from random import randint, uniform
 
 n = int(input())
+print(n)
 for i in range(n):
 	task_id = i + 1
 	deadline = randint(1, 1440)
