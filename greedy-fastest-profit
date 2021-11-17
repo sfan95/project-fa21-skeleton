@@ -12,7 +12,7 @@ def solve(tasks):
     profit = 0
     igloos = []
     while time < 1440 and len(tasks) > 0:
-        best = max(tasks, key = lambda task: task.get_max_benefit())
+        best = max(tasks, key = lambda task: task.get_max_benefit()/task.get_duration())
         end = best.get_duration() + time 
         time = end
         if end <= 1440:
