@@ -1,6 +1,5 @@
 from parse import read_input_file, write_output_file
 import os
-from igloovalue import eval_igloos
 
 def solve(tasks):
     """
@@ -13,17 +12,19 @@ def solve(tasks):
     profit = 0
     igloos = []
     while time < 1440 and len(tasks) > 0:
-        best = max(tasks, key = lambda task: task.get_max_benefit())
+        best = max(tasks, key = lambda task: task.get_max_benefit()/task.get_duration())
         end = best.get_duration() + time 
         time = end
         if end <= 1440:
             newprofit = best.get_max_benefit()
             profit += newprofit
             tasks = list(filter(
-                lambda x: (x.get_late_benefit(end + x.get_duration() - x.get_deadline()) >= 0.5 * newprofit or x.get_deadline() > end) and (x.get_task_id() != best.get_task_id()), tasks))
+                lambda x: (x.get_late_benefit(end + x.get_duration() - x.get_deadline()) >= 0.5 * newprofit or x.get_deadline() > end)
+                and (x.get_task_id() != best.get_task_id()), tasks))
             igloos.append(best.get_task_id())
         else:
             break
+    print(igloos)
     return igloos
 
 if __name__ == '__main__':
