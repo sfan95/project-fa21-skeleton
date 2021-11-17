@@ -11,16 +11,20 @@ def solve(tasks):
     time = 0
     profit = 0
     igloos = []
-    while time < 1440:
+    while time < 1440 and len(tasks) > 0:
         best = max(tasks, key = lambda task: task.get_max_benefit())
         end = best.get_duration() + time 
+        time = end
         if end <= 1440:
             newprofit = best.get_max_benefit()
             profit += newprofit
-            tasks = list(filter(lambda x: x.get_late_benefit(end + x.get_duration() - x.get_deadline() >= 0.5 * profit or x.get_deadline() > end, tasks)))
+            tasks = list(filter(
+                lambda x: (x.get_late_benefit(end + x.get_duration() - x.get_deadline()) >= 0.5 * profit or x.get_deadline() > end)
+                and (x.get_task_id() != best.get_task_id()), tasks))
             igloos.append(best.get_task_id())
         else:
             break
+    print(igloos)
     return igloos
 
 if __name__ == '__main__':
