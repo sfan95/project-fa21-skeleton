@@ -9,12 +9,12 @@ def eval_igloos(tasks, task_ids):
 	time = 0
 	for ind in task_ids:
 		next_igloo = tasks[ind - 1]
+		time += next_igloo.get_duration()
 		deadline = next_igloo.get_deadline()
 		if time <= deadline:
 			total_val += next_igloo.get_max_benefit()
 		else:
 			total_val += next_igloo.get_late_benefit(time - deadline)
-		time += next_igloo.get_duration()
 
 	total_profit = sum([task.get_max_benefit() for task in tasks])
 	total_time = sum([task.get_duration() for task in tasks])
