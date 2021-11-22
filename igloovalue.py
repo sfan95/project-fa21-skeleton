@@ -15,7 +15,6 @@ def eval_igloos(tasks, task_ids):
 			total_val += next_igloo.get_max_benefit()
 		else:
 			total_val += next_igloo.get_late_benefit(time - deadline)
-
 	assert time <= 1440
 
 	total_profit = sum([task.get_max_benefit() for task in tasks])
