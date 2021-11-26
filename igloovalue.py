@@ -19,5 +19,7 @@ def eval_igloos(tasks, task_ids):
 
 	total_profit = sum([task.get_max_benefit() for task in tasks])
 	total_time = sum([task.get_duration() for task in tasks])
-	upper_bound = total_profit * total_time / 1440
+	if total_time <= 1440:
+		return total_val, total_profit
+	upper_bound = total_profit * 1440 / total_time
 	return total_val, upper_bound

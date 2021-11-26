@@ -12,12 +12,17 @@ def solve(tasks):
     """
     best_perm, best_val = [], 0
     for task_perm in permutations(tasks):
-        perm_ids = [task.get_task_id() for task in task_perm]
+        perm_ids = []
+        total_time = 0
+        for task in task_perm:
+            if total_time + task.get_duration() <= 1440:
+                perm_ids.append(task.get_task_id())
+            else:
+                break
         possible_val = eval_igloos(tasks, perm_ids)[0]
-        if possible_val > best_val and is_valid(task_perm):
+        if possible_val > best_val:
             best_val = possible_val
             best_perm = perm_ids
-    print(best_perm)
     return best_perm
 
 def is_valid(tasks):
@@ -31,9 +36,9 @@ def is_valid(tasks):
     return time <= 1440
 
 if __name__ == '__main__':
-    for input_path in os.listdir('inputs/'):
+    for input_path in os.listdir('tiny-inputs/'):
         output_path = 'outputs/' + input_path[:-3] + '.out'
-        tasks = read_input_file('inputs/' + input_path)
+        tasks = read_input_file('tiny-inputs/' + input_path)
         output = solve(tasks)
         write_output_file(output_path, output)
         print(eval_igloos(tasks, output))
