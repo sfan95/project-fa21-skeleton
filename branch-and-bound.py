@@ -3,6 +3,9 @@ import os
 from igloovalue import eval_igloos
 from itertools import permutations
 from functools import lru_cache
+import importlib
+
+baseline = importlib.import_module("greedy-with-decay")
 
 def solve(tasks):
     """
@@ -16,9 +19,12 @@ def solve(tasks):
 def find_best_seq(tasks):
     n = len(tasks)
     # 2^n with DP
+
+    lower_bound = eval_igloos(tasks, baseline.solve(tasks))[0]
+
     @lru_cache
     def helper(time, bitmask):
-        if time >= 1440 or '0' not in bin(bitmask):
+        if time >= 1440 or '0' not in bin(bitmask) or upper_bound(tasks, bitmask) <= lower_bound:
             return 0, []
         best_val, best_seq = 0, []
         for i in range(len(tasks)):
@@ -45,6 +51,14 @@ def is_valid(tasks):
         time += task.get_duration()
         prev_time = time
     return time <= 1440
+
+def upper_bound(tasks, bitmask):
+    total_val = 0
+    tasks_not_done = set()
+    for i in range(len(tasks)):
+        if not (bitmask >> i) & 1: # if ith task is not used
+            tasks_not_done.add(tasks[i])
+    return sum([task.get_max_benefit() for task in tasks_not_done])
 
 if __name__ == '__main__':
     for input_path in os.listdir('tiny-inputs/'):
