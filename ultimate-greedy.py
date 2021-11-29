@@ -27,4 +27,3 @@ if __name__ == '__main__':
                 tasks = read_input_file('inputs/' + input_size + input_path)
                 output = solve(tasks)
                 write_output_file(output_path, output)
-                print(eval_igloos(tasks, output))
