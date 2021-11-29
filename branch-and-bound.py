@@ -24,7 +24,7 @@ def find_best_seq(tasks):
 
     @lru_cache
     def helper(time, bitmask):
-        if time >= 1440 or '0' not in bin(bitmask) or upper_bound(tasks, bitmask) <= 1.5 * lower_bound:
+        if time >= 1440 or '0' not in bin(bitmask):
             return 0, []
         best_val, best_seq = 0, []
         for i in range(len(tasks)):
@@ -35,6 +35,8 @@ def find_best_seq(tasks):
                     curr_val = task.get_max_benefit()
                 else:
                     curr_val = task.get_late_benefit(task.get_duration() + time - task.get_deadline())
+                if upper_bound(tasks, time, curr_val, bitmask) <= 3636.4106:
+                    return
                 updated_bitmask = bitmask | (1 << i)
                 next_val, next_seq = helper(time + task.get_duration(), updated_bitmask)
                 if next_val + curr_val > best_val:
@@ -52,23 +54,32 @@ def is_valid(tasks):
         prev_time = time
     return time <= 1440
 
-def upper_bound(tasks, bitmask):
+def upper_bound(tasks, time, curr_val, bitmask):
     total_val = 0
-    tasks_not_done = set()
+    tasks_not_done = []
     for i in range(len(tasks)):
         if not (bitmask >> i) & 1: # if ith task is not used
-            tasks_not_done.add(tasks[i])
-    return sum([task.get_max_benefit() for task in tasks_not_done])
+            tasks_not_done.append(task)
+    tasks_not_done.sort(key=lambda task: -task.get_max_benefit() / task.get_duration())
+    for task in tasks_not_done:
+        if time >= 1440:
+            return curr_val + total_val
+        total_val += task.get_max_benefit()
+        time += tsak.get_duration()
 
 if __name__ == '__main__':
-    for input_size in ['small/', 'medium/', 'large/']:
-        for input_path in os.listdir('inputs/' + input_size):
-            output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
-            if input_path[0] != '.':
-                tasks = read_input_file('inputs/' + input_size + input_path)
-                output = solve(tasks)
-                write_output_file(output_path, output)
-                print(eval_igloos(tasks, output))
+    # for input_size in ['small/', 'medium/', 'large/']:
+    #     for input_path in os.listdir('inputs/' + input_size):
+    #         output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
+    #         if input_path[0] != '.':
+    #             tasks = read_input_file('inputs/' + input_size + input_path)
+    #             output = solve(tasks)
+    #             write_output_file(output_path, output)
+    #             print(eval_igloos(tasks, output))
+    tasks = read_input_file('inputs/small/small-1.in')
+    output = solve(tasks)
+    write_output_file("outputs/small/small1.out", output)
+    print(eval_igloos(tasks, output))
 
 # 100 >> 5000/45000
 # 150 >> 4300/25000

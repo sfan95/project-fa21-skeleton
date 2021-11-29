@@ -26,4 +26,8 @@ if __name__ == '__main__':
             if input_path[0] != '.':
                 tasks = read_input_file('inputs/' + input_size + input_path)
                 output = solve(tasks)
+<<<<<<< HEAD
                 write_output_file(output_path, output)
+=======
+                write_output_file(output_path, output)
+>>>>>>> 319e6a0dd838f4c011751a594e43cbefd1787a6a
