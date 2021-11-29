@@ -16,8 +16,8 @@ def solve(tasks):
         output: list of igloos in order of polishing  
     """
     highest_profit_tasks = highest_profit_decay.solve(tasks)
-    random_strategy_tasks = random_greedy.solve(tasks)
-    return max(highest_profit_tasks, random_strategy_tasks, key=lambda tasks_to_do: eval_igloos(tasks, tasks_to_do)[0])
+    random_strategy_tasks = [random_greedy.solve(tasks) for x in range(3)]
+    return max([highest_profit_tasks] + random_strategy_tasks, key=lambda tasks_to_do: eval_igloos(tasks, tasks_to_do)[0])
 
 if __name__ == '__main__':
     for input_size in ['small/', 'medium/', 'large/']:
@@ -26,4 +26,8 @@ if __name__ == '__main__':
             if input_path[0] != '.':
                 tasks = read_input_file('inputs/' + input_size + input_path)
                 output = solve(tasks)
+<<<<<<< HEAD
                 write_output_file(output_path, output)
+=======
+                write_output_file(output_path, output)
+>>>>>>> 319e6a0dd838f4c011751a594e43cbefd1787a6a

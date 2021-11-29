@@ -17,7 +17,7 @@ def get_duration(task, time):
 def get_deadline(task, time):
     return -task.get_deadline()
 
-funcs = [get_value, get_value_per_time, get_duration, get_deadline]
+funcs = [get_value, get_value_per_time]
 
 
 def solve(tasks):
