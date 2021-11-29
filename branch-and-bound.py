@@ -24,7 +24,7 @@ def find_best_seq(tasks):
 
     @lru_cache
     def helper(time, bitmask):
-        if time >= 1440 or '0' not in bin(bitmask) or upper_bound(tasks, bitmask) <= lower_bound:
+        if time >= 1440 or '0' not in bin(bitmask) or upper_bound(tasks, bitmask) <= 1.5 * lower_bound:
             return 0, []
         best_val, best_seq = 0, []
         for i in range(len(tasks)):
@@ -61,12 +61,14 @@ def upper_bound(tasks, bitmask):
     return sum([task.get_max_benefit() for task in tasks_not_done])
 
 if __name__ == '__main__':
-    for input_path in os.listdir('tiny-inputs/'):
-        output_path = 'outputs/' + input_path[:-3] + '.out'
-        tasks = read_input_file('tiny-inputs/' + input_path)
-        output = solve(tasks)
-        write_output_file(output_path, output)
-        print(eval_igloos(tasks, output))
+    for input_size in ['small/', 'medium/', 'large/']:
+        for input_path in os.listdir('inputs/' + input_size):
+            output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
+            if input_path[0] != '.':
+                tasks = read_input_file('inputs/' + input_size + input_path)
+                output = solve(tasks)
+                write_output_file(output_path, output)
+                print(eval_igloos(tasks, output))
 
 # 100 >> 5000/45000
 # 150 >> 4300/25000
