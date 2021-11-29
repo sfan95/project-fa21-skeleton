@@ -6,7 +6,7 @@ from functools import lru_cache
 import importlib
 
 highest_profit_decay = importlib.import_module("greedy-with-decay")
-earliest_deadline = importlib.import_module("greedly-earliest-deadline")
+random_greedy = importlib.import_module("random_greedy")
 
 def solve(tasks):
     """
@@ -16,8 +16,8 @@ def solve(tasks):
         output: list of igloos in order of polishing  
     """
     highest_profit_tasks = highest_profit_decay.solve(tasks)
-    earliest_tasks = highest_profit_decay.solve(tasks)
-    return max(highest_profit_tasks, earliest_tasks, key=lambda tasks_to_do: eval_igloos(tasks, tasks_to_do)[0])
+    random_strategy_tasks = random_greedy.solve(tasks)
+    return max(highest_profit_tasks, random_strategy_tasks, key=lambda tasks_to_do: eval_igloos(tasks, tasks_to_do)[0])
 
 if __name__ == '__main__':
     for input_size in ['small/', 'medium/', 'large/']:
