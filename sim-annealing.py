@@ -69,11 +69,14 @@ def is_valid(tasks, task_inds):
     return sum([tasks[i - 1].get_duration() for i in task_inds]) <= 1440
 
 if __name__ == '__main__':
-    for input_size in ['small/', 'medium/', 'large/']:
-        for input_path in os.listdir('inputs/' + input_size):
-            print(input_path)
-            output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
-            if input_path[0] != '.':
-                tasks = read_input_file('inputs/' + input_size + input_path)
-                output = solve(tasks)
-                write_output_file(output_path, output)
+    # for input_size in ['small/', 'medium/', 'large/']:
+    #     for input_path in os.listdir('inputs/' + input_size):
+    #         print(input_path)
+    #         output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
+    #         if input_path[0] != '.':
+    #             tasks = read_input_file('inputs/' + input_size + input_path)
+    #             output = solve(tasks)
+    #             write_output_file(output_path, output)
+    tasks = read_input_file('inputs/' + input_size + input_path)
+    output = solve(tasks)
+    write_output_file(output_path, output)

@@ -7,6 +7,7 @@ import importlib
 
 highest_profit_decay = importlib.import_module("greedy-with-decay")
 random_greedy = importlib.import_module("random_greedy")
+earliest_deaadline = importlib.import_module("greedly-earliest-deadline")
 
 def solve(tasks):
     """
@@ -16,13 +17,12 @@ def solve(tasks):
         output: list of igloos in order of polishing  
     """
     highest_profit_tasks = highest_profit_decay.solve(tasks)
-<<<<<<< HEAD
-    random_strategy_tasks = [random_greedy.solve(tasks) for x in range(100)]
-=======
-    random_strategy_tasks = [random_greedy.solve(tasks) for x in range(30)]
->>>>>>> e7c1724aa0a9aba819d3b5713d2a372fe0336cf6
-    return max([highest_profit_tasks] + random_strategy_tasks, key=lambda tasks_to_do: eval_igloos(tasks, tasks_to_do)[0])
+    earliest_deadline_tasks = earliest_deaadline.solve(tasks)
+    # random_strategy_tasks = random_greedy.solve(tasks)
+    # return max([highest_profit_tasks] + random_strategy_tasks, key=lambda tasks_to_do: eval_igloos(tasks, tasks_to_do)[0])
+    return max(highest_profit_tasks, earliest_deadline_tasks, key=lambda tasks_to_do: eval_igloos(tasks, tasks_to_do)[0])
 
+total = 0
 if __name__ == '__main__':
     for input_size in ['small/', 'medium/', 'large/']:
         for input_path in os.listdir('inputs/' + input_size):
@@ -31,3 +31,9 @@ if __name__ == '__main__':
                 tasks = read_input_file('inputs/' + input_size + input_path)
                 output = solve(tasks)
                 write_output_file(output_path, output)
+                total += eval_igloos(tasks, output)[0]
+    print(total)
+    # tasks = read_input_file('inputs/large/large-202.in')
+    # output = solve(tasks)
+    # write_output_file("outputs/large/large-202.in", output)
+    # print(output)
