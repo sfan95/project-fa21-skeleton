@@ -32,15 +32,9 @@ def solve(tasks):
         return start
 
     best_res, best_val = None, 0
-    n = len(tasks)
-    for _ in range(n ** 2):
-        start = get_rand_start()
-        res, res_val = sim_anneal(tasks, start)
-        if res_val >= best_val:
-            best_res = res
-            best_val = res_val
-
-    return best_res
+    start = get_rand_start()
+    res, res_val = sim_anneal(tasks, start)
+    return res
     
 def sim_anneal(tasks, start):
     tasks = list(tasks)
@@ -65,7 +59,7 @@ def sim_anneal(tasks, start):
         # if is_valid(tasks, new_tasks_to_do):
         new_value, max_value = eval_igloos(tasks, new_tasks_to_do)
         accept_bad = random.uniform(0, 1)
-        if new_value >= old_value or accept_bad >= p_accept_bad:
+        if new_value > old_value or accept_bad >= p_accept_bad:
             tasks_to_do = new_tasks_to_do
             p_accept_bad *= SCHEDULED_DECREASED
         else:
@@ -75,9 +69,11 @@ def is_valid(tasks, task_inds):
     return sum([tasks[i - 1].get_duration() for i in task_inds]) <= 1440
 
 if __name__ == '__main__':
-    for input_path in os.listdir('inputs/'):
-        output_path = 'outputs/' + input_path[:-3] + '.out'
-        tasks = read_input_file('inputs/' + input_path)
-        output = solve(tasks)
-        write_output_file(output_path, output)
-        print(eval_igloos(tasks, output))
+    for input_size in ['small/', 'medium/', 'large/']:
+        for input_path in os.listdir('inputs/' + input_size):
+            print(input_path)
+            output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
+            if input_path[0] != '.':
+                tasks = read_input_file('inputs/' + input_size + input_path)
+                output = solve(tasks)
+                write_output_file(output_path, output)

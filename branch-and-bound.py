@@ -36,7 +36,7 @@ def find_best_seq(tasks):
                 else:
                     curr_val = task.get_late_benefit(task.get_duration() + time - task.get_deadline())
                 if upper_bound(tasks, time, curr_val, bitmask) <= 3636.4106:
-                    return
+                    return best_val, best_seq
                 updated_bitmask = bitmask | (1 << i)
                 next_val, next_seq = helper(time + task.get_duration(), updated_bitmask)
                 if next_val + curr_val > best_val:
@@ -59,13 +59,14 @@ def upper_bound(tasks, time, curr_val, bitmask):
     tasks_not_done = []
     for i in range(len(tasks)):
         if not (bitmask >> i) & 1: # if ith task is not used
-            tasks_not_done.append(task)
+            tasks_not_done.append(tasks[i])
     tasks_not_done.sort(key=lambda task: -task.get_max_benefit() / task.get_duration())
     for task in tasks_not_done:
         if time >= 1440:
             return curr_val + total_val
         total_val += task.get_max_benefit()
-        time += tsak.get_duration()
+        time += task.get_duration()
+    return curr_val + total_val
 
 if __name__ == '__main__':
     # for input_size in ['small/', 'medium/', 'large/']:
@@ -78,7 +79,7 @@ if __name__ == '__main__':
     #             print(eval_igloos(tasks, output))
     tasks = read_input_file('inputs/small/small-1.in')
     output = solve(tasks)
-    write_output_file("outputs/small/small1.out", output)
+    write_output_file("outputs/small/small-1.out", output)
     print(eval_igloos(tasks, output))
 
 # 100 >> 5000/45000
