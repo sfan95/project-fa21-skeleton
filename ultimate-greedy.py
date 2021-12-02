@@ -24,16 +24,20 @@ def solve(tasks):
 
 total = 0
 if __name__ == '__main__':
-    for input_size in ['small/', 'medium/', 'large/']:
-        for input_path in os.listdir('inputs/' + input_size):
-            output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
-            if input_path[0] != '.':
-                tasks = read_input_file('inputs/' + input_size + input_path)
-                output = solve(tasks)
-                write_output_file(output_path, output)
-                total += eval_igloos(tasks, output)[0]
-    print(total)
+    # for input_size in ['small/', 'medium/', 'large/']:
+    #     for input_path in os.listdir('inputs/' + input_size):
+    #         output_path = 'outputs/' + input_size + input_path[:-3] + '.out'
+    #         if input_path[0] != '.':
+    #             tasks = read_input_file('inputs/' + input_size + input_path)
+    #             output = solve(tasks)
+    #             write_output_file(output_path, output)
+    #             total += eval_igloos(tasks, output)[0]
+    # print(total)
     # tasks = read_input_file('inputs/large/large-202.in')
     # output = solve(tasks)
     # write_output_file("outputs/large/large-202.in", output)
     # print(output)
+    tasks = read_input_file('inputs/small/small-74.in')
+    output = solve(tasks)
+    write_output_file("outputs/small/small-74.in", output)
+    print(eval_igloos(tasks, output))
