@@ -34,5 +34,5 @@ def solve(tasks):
 if __name__ == '__main__':
     tasks = read_input_file('inputs/small/small-74.in')
     output = solve(tasks)
-    write_output_file("outputs/small/small-74.in", output)
+    write_output_file("outputs/small/small-74.out", output)
     print(eval_igloos(tasks, output))
